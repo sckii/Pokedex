@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const WrapperContent = styled.input`
 
-  margin: 1rem 4rem 1rem 4rem;
+  margin: 0rem 4rem 0rem 4rem;
   padding: 0.7rem;
 
   font-size: 1.2rem;

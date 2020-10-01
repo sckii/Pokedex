@@ -14,7 +14,11 @@ const PokedexBack: React.FC = () => {
           <img src={PokeballIcon} alt="Pokeball"/>
           <h6>Pokedex 0.0.1v</h6>
         </HeaderContent>
-        <Display />
+        <Display 
+          PokeName="Charmander"
+          PokeNumber="1"
+          PokeType="fire"
+        />
         <Search />
       </Content>
     </WrapperContent>

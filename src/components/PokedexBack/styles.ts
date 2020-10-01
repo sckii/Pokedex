@@ -4,7 +4,7 @@ const WrapperContent = styled.div`
   
   max-width: 25rem;
   width: 100%;
-  height: 80vh;
+  height: 90vh;
   
   display: flex;
   align-items: center;
