@@ -18,11 +18,13 @@ const WrapperContent = styled.div`
 
 `
 
-const PokedexHeader = styled.header`
+const Content = styled.header`
+  display: flex;
+  flex-direction: column;
 
   width: 100%;
   height: 100%;
-  
+
   border-radius: 1rem;
 
   overflow: hidden;
@@ -51,7 +53,7 @@ const HeaderContent = styled.div`
     border-radius: 3rem;
 
   }
-  
+
 `
 
-export { WrapperContent, PokedexHeader, HeaderContent }
+export { WrapperContent, Content, HeaderContent }

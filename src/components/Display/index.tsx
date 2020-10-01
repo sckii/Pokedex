@@ -1,10 +1,11 @@
 import React from 'react';
-import { WrapperContent } from './styles';
+import Search from '../Search';
+import { WrapperContent, BlueScreen } from './styles';
 
 const Display: React.FC = () => {
   return (
     <WrapperContent>
-     
+      <BlueScreen />
     </WrapperContent>
   )
 }

@@ -1,17 +1,22 @@
 import React from 'react';
-import { WrapperContent, PokedexHeader, HeaderContent } from './styles';
+import { WrapperContent, Content, HeaderContent } from './styles';
 
 import PokeballIcon from '../../assets/svg/pokeball.svg'
+import Display from '../Display';
+import Search from '../Search';
 
 const PokedexBack: React.FC = () => {
   return (
     <WrapperContent>
-      <PokedexHeader>
+      <Content>
+
         <HeaderContent>
           <img src={PokeballIcon} alt="Pokeball"/>
           <h6>Pokedex 0.0.1v</h6>
         </HeaderContent>
-      </PokedexHeader>
+        <Display />
+        <Search />
+      </Content>
     </WrapperContent>
   )
 }
