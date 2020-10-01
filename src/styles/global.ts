@@ -30,6 +30,7 @@ const GlobalStyle = createGlobalStyle `
   }
 
   body {
+    font-family: 'Inconsolata', monospace;
     background: ${props => props.theme.colors.background};
   }
 `
