@@ -9,7 +9,9 @@ declare module 'styled-components' {
       primaryLight: string;
       primary: string;
       secondary: string;
-      white: string
+      white: string;
+      screen: string;
+      button: string;
     }
   }
 }
