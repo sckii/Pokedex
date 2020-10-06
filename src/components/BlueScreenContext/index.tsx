@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Content } from './styles';
 
 interface Props {
-  PokeName?: string
+  PokeName: string
   PokeNumber?: string
   PokeType?: string
   imageUrl?: string
