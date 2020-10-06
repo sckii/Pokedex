@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle `
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: url(https://cur.cursors-4u.net/games/gam-13/gam1282.cur), default !important;
   }
   
   html, body, div, span, applet, object, iframe,

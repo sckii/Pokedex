@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const WrapperContent = styled.div`
   width: 21.3rem;
-  height: 65%;
+  height: 60%;
 
   display: flex;
   flex-direction: column;
@@ -18,10 +18,8 @@ const WrapperContent = styled.div`
   border-radius: 0.8rem;
 
   @media (min-height: 720px) {
-    height: 70%;
+    height: 65%;
   }
-
-  cursor: crosshair;
 
 `
 
