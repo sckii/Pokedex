@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const WrapperContent = styled.div`
   width: 21.3rem;
-  height: 60%;
+  height: 65%;
 
   display: flex;
   flex-direction: column;
@@ -25,58 +25,90 @@ const WrapperContent = styled.div`
 
 `
 
-const BlueScreen = styled.div`
+const BlueScreen = styled.ul`
+  ::-webkit-scrollbar {
+    width: 5px;
+    background: none; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${props => props.theme.colors.primaryLight}
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${props => props.theme.colors.primary}
+  }
+
+  overflow-x: auto;
 
   width: 80%;
-  height: 10rem;
+  height: 70%;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   
-  margin: 2rem;
-  border-radius: 1rem;
+  opacity: 0.7;
+  
+  margin: 1rem;
+  border-radius: 1rem 0rem 0rem 1rem;
   
   box-shadow: -2.5px -2.5px 0px 1px ${props => props.theme.colors.secondary};
   background: ${props => props.theme.colors.screen};
   
   img {
-    opacity: 0.8;
     width: 60%;
   }
 
   @media (min-height: 720px) {
     height: 60%;
+    margin: 3rem;
+
   }
 
 `
+
 const List = styled.div`
 
   display:flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 
 `
-const Box = styled.div`
 
-  display:flex;
+const ButtonFake = styled.button`
+  width: 3rem;
+  height: 3rem;
+
+  margin-right: 2rem;
+
+  background: #FD1A55;
+
+  outline: none;
+
+  border: .4rem solid ${props => props.theme.colors.secondaryDark};
+  border-radius: 3rem;
+
+  img {
+    display:flex;
+    align-items: center;
+    margin-left: 0.25rem;
+    width: 1.7rem;
+  }
+`
+
+const SoundFake = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  color: white;
-  font-size: 0.8rem;
+  div {
+    margin-bottom: 0.4rem;
+    width: 10rem;
+    height: .5rem;
 
-  width: 12rem;
-  height: 0rem;
+    border-radius: 2rem;
 
-  padding: .8rem;
-  margin: 0.2rem;
-
-  border-radius: 0.7rem 0rem 0.7rem 0rem;
-
-  box-shadow: 2px 2px 0px 1px ${props => props.theme.colors.secondary};
-  background: ${props => props.theme.colors.secondaryDark};;
+    background: ${props => props.theme.colors.secondaryDark};;
+  }
 `
 
-export {Box, WrapperContent, BlueScreen, List}
+export { WrapperContent, BlueScreen, List, ButtonFake, SoundFake }

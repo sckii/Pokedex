@@ -7,6 +7,7 @@ const WrapperContent = styled.div`
   height: 90vh;
   
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   
@@ -15,7 +16,7 @@ const WrapperContent = styled.div`
   padding: 0rem;
   border-radius: 1rem;
   box-shadow: 5px 5.5px 0px 5px ${props => props.theme.colors.secondary};
-
+  
 `
 
 const Content = styled.header`
@@ -56,4 +57,68 @@ const HeaderContent = styled.div`
 
 `
 
-export { WrapperContent, Content, HeaderContent }
+const Search = styled.input`
+  margin-right: 1rem;
+
+  padding: 0.7rem;
+
+  font-size: 1.2rem;
+
+  border: none;
+  border-radius: 0.5rem;
+
+  outline: none;
+
+  box-shadow: 5px 5.5px 0px 3px ${props => props.theme.colors.secondary};
+
+  &:focus {
+    box-shadow: none;
+    transform: translate(2px, 2px)
+  }
+  
+`
+
+const Box = styled.div `
+  margin-top: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+`
+
+const Filter = styled.input`
+  margin-right: 1rem;
+
+  padding: 0.7rem;
+
+  font-size: 1.2rem;
+
+  border: none;
+  border-radius: 0.5rem;
+
+  outline: none;
+
+  box-shadow: 5px 5.5px 0px 3px ${props => props.theme.colors.secondary};
+
+
+  &:active {
+    box-shadow: none;
+    transform: translate(2px, 2px)
+  }
+  
+  span {
+    color: white;
+
+  }
+
+`
+
+export { WrapperContent, Content, HeaderContent, Box, Search, Filter }
