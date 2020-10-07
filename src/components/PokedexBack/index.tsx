@@ -10,8 +10,6 @@ import BlueScreenContent from '../BlueScreenContext';
 
 import SearchIcon from '../../assets/svg/search-outline.svg'
 
-import db from '../../data/db.json'
-
 interface ISpokemon {
   name: string
   URL: string
@@ -86,14 +84,12 @@ const PokedexBack: React.FC = () => {
             const name = response.data.name
             const type = response.data.types
             
-            
-                  setPokemonData([
-                    {id: index, URL: image, name: name, type: type}
-                  ])
+            setPokemonData([
+              {id: index, URL: image, name: name, type: type}
+            ])
           })                       
           .catch(() => {console.log()})
       }
-
     })
   }
   
