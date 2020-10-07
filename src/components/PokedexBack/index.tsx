@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { WrapperContent, Content, HeaderContent, Box, Search } from './styles';
 
@@ -10,38 +10,57 @@ import BlueScreenContent from '../BlueScreenContext';
 
 import SearchIcon from '../../assets/svg/search-outline.svg'
 
+import db from '../../data/db.json'
+
 interface ISpokemon {
   name: string
   URL: string
-  type: string
+  type: any
+  color: string
   id: number
 }
 
 const PokedexBack: React.FC = () => {
 
   const [pokemonData, setPokemonData] = useState<ISpokemon[]>([])
-  const [pokemonName, setPokemonName] = useState('Charmander')
+  const [pokemonName, setPokemonName] = useState('Show All')
   
-  const [value, setValue] = useState(false)
-  
-  
-  const [datas, setDatas] = useState({
-    name:'charmander', 
-    id: 4,
-    types: {
-      0: {
-        type: {
-          name: 'fire'
-        }
-      }
-    }, 
-    sprites: {
-      front_default: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png'
-    }
-  })
-  
-  async function handleSearch(e: FormEvent) {
+  const showAll = async () => {
+    const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=100&offset=1')
+    all.data.results.map( async(data: any) => {
+      const allInfos = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.name}/`)
+    
+      db.map(datas => {
+        allInfos.data.types.map((infos: any) => {
+          const index = allInfos.data.id
+          const image = allInfos.data.sprites.front_default
+          const name = allInfos.data.name
+          const type = allInfos.data.types
+          
+          if(infos.type.name === datas.type) {
+            setPokemonData(pokemonData => [
+              ...pokemonData,
+              {id: index, URL: image, name: name, type: type, color: datas.color}
+            ])
+          }
+        })  
+      })
+      
+      
+    })
+
+  }
+
+  useEffect(() => {
+    showAll()
+  }, [])
+
+  const handleSearch = async (e: FormEvent) => {
     e.preventDefault()
+
+    if(pokemonName === 'show all') {
+      return showAll()
+    }
     const reWrited = pokemonName.toLowerCase()
     
     const res = await Axios.get(`https://pokeapi.co/api/v2/type/`)
@@ -55,28 +74,41 @@ const PokedexBack: React.FC = () => {
 
         resType.data.pokemon.map( async(datas: any) => {
           const id = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${datas.pokemon.name}/`)
-          const game_index = id.data.id
-
-          const nameNow = datas.pokemon.name
           
-          const URL = datas.pokemon.url
-          const myReg = /.*\/pokemon\/(.+?)\/.*/
-          const imgID = URL.replace(myReg, "$1")
-          const newURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${imgID}.png`
-          
-          setPokemonData( pokemonData => [
-            ...pokemonData,
-            { name: nameNow, URL: newURL, type: reWrited, id: game_index }
-          ])
+          db.map(datas => {
+            id.data.types.map((infos: any) => {
+              const image = id.data.sprites.front_default
+              const index = id.data.id
+              const name = id.data.name
+              const type = id.data.types
+              
+              
+              if(infos.type.name === datas.type) {
+                setPokemonData(pokemonData => [
+                  ...pokemonData,
+                  {id: index, URL: image, name: name, type: type, color: datas.color}
+                ])
+              }
+            })  
+          })
 
-          return setValue(true)
         })
       } else {
-        
-        const response = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
-        setDatas(response.data)
+          Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
+            .then((response) => {
+              
+              const index = response.data.id
+              const image = response.data.sprites.front_default
+              const name = response.data.name
+              const type = response.data.types
+              
+              
 
-        return setValue(false)
+              setPokemonData([
+                {id: index, URL: image, name: name, type: type, color: datas.color}
+              ])
+            })  
+            .catch(() => {console.log()})
       }
 
     })
@@ -108,24 +140,26 @@ const PokedexBack: React.FC = () => {
         </Box>
 
         <Display>
-          {value ? pokemonData.map((data) => {
+          {pokemonData.map((data) => {
+            
             return (
               <BlueScreenContent 
                 key={data.name}
                 PokeNumber={data.id}
                 PokeName={data.name}
-                PokeType={data.type}
                 imageUrl={data.URL}
-              />
+              >
+                {data.type.map((types: any) => {                 
+                  return (
+                    <div style={{background: data.color, color: 'white', width: '100%', marginBottom: '0.5rem', padding: '0.2rem', textAlign: 'center'}}>
+                      {types.type.name}
+                    </div>
+                  )
+                })}
+
+              </BlueScreenContent>
             )
-          }) : <> </>}
-            {value ? <></> : 
-            <BlueScreenContent 
-              PokeName={datas.name}
-              PokeNumber={datas.id}
-              PokeType={datas.types[0].type.name}
-              imageUrl={datas.sprites.front_default}
-            />}         
+          })}        
         </Display>
 
       </Content>
