@@ -94,6 +94,10 @@ const Box = styled.div `
     color: white;
     margin-bottom: 1rem;
   }
+
+  span {
+    font-weight: bold;
+  }
   div {
     display: flex;
     flex-direction: row;
