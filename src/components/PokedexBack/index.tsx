@@ -23,7 +23,7 @@ const PokedexBack: React.FC = () => {
   const [pokemonName, setPokemonName] = useState('Show All')
   
   const showAll = async () => {
-    const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=100&offset=1')
+    const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=200&offset=1')
     all.data.results.map( async(data: any) => {
       const allInfos = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.name}/`)
     
