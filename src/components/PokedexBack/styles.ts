@@ -124,4 +124,12 @@ const Filter = styled.input`
 
 `
 
-export { WrapperContent, Content, HeaderContent, Box, Search, Filter }
+const Types = styled.div`
+  color: white; 
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem;
+  text-align: center;
+`
+
+export { WrapperContent, Types, Content, HeaderContent, Box, Search, Filter }

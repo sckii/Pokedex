@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Content, Id, Name } from './styles';
+import { Content, Id, Name } from './styles';
 
 interface Props {
   PokeName: string

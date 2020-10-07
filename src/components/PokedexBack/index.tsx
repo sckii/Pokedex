@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { WrapperContent, Content, HeaderContent, Box, Search } from './styles';
+import { WrapperContent, Content, HeaderContent, Box, Search, Types } from './styles';
 
 import Button from '../Button'
 import PokeballIcon from '../../assets/svg/pokeball.svg'
@@ -102,11 +102,17 @@ const PokedexBack: React.FC = () => {
               const name = response.data.name
               const type = response.data.types
               
+              db.map((datas) => {
+                type.map((infos: any) => {
+                  if(infos.type.name === datas.type) {
+                    setPokemonData([
+                      {id: index, URL: image, name: name, type: type, color: datas.color}
+                    ])
+                  }
+                })
+              })
               
 
-              setPokemonData([
-                {id: index, URL: image, name: name, type: type, color: datas.color}
-              ])
             })  
             .catch(() => {console.log()})
       }
@@ -151,9 +157,9 @@ const PokedexBack: React.FC = () => {
               >
                 {data.type.map((types: any) => {                 
                   return (
-                    <div style={{background: data.color, color: 'white', width: '100%', marginBottom: '0.5rem', padding: '0.2rem', textAlign: 'center'}}>
+                    <Types key={types.type.name} style={{background: data.color}}>
                       {types.type.name}
-                    </div>
+                    </Types>
                   )
                 })}
 
