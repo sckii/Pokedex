@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Content } from './styles';
+import { Box, Content, Id, Name } from './styles';
 
 interface Props {
   PokeName: string
-  PokeNumber?: string
+  PokeNumber?: number
   PokeType?: string
   imageUrl?: string
 }
@@ -12,10 +12,10 @@ interface Props {
 const BlueScreenContent: React.FC<Props> = ({ PokeNumber, PokeName, PokeType, imageUrl }) => {
   return (
     <Content>
+      <Name>{ PokeName }</Name>
       <img src={imageUrl} alt=""/>
-      <Box>Name: { PokeName }</Box>
-      <Box>Game Id: { PokeNumber }</Box>
-      <Box>Type: { PokeType }</Box>
+      <Id>#{ PokeNumber }</Id>
+      <Box> { PokeType }</Box>
     </Content>
   )
 }

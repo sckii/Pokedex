@@ -1,13 +1,20 @@
 import styled from 'styled-components'
 
 const Content = styled.li`
-  
+  background: #202020;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 2rem;
+  margin: 3.5rem 2rem 0.4rem 2rem;
+
+  img {
+    width: 8rem;
+  }
+  border-radius: .8rem;
+  box-shadow: 2px 2px 0px 1px ${props => props.theme.colors.secondary};
 `
 
 const Box = styled.div`
@@ -19,16 +26,40 @@ const Box = styled.div`
   color: white;
   font-size: 0.8rem;
 
-  width: 12rem;
+  width: 100%;
   height: 0rem;
 
   padding: .8rem;
-  margin: 0.2rem;
+  margin-bottom: 1rem;
+  background: #101010;
 
-  border-radius: 0.7rem 0rem 0.7rem 0rem;
+`
+const Id = styled.div`
+  display:flex;
+  align-items: initial;
+  justify-content: left;
 
-  box-shadow: 2px 2px 0px 1px ${props => props.theme.colors.secondary};
-  background: ${props => props.theme.colors.secondaryDark};;
+  width: 12rem;
+  height: 0rem;
+
+  padding: 1rem 1rem 1rem 0.5rem;
+  margin-bottom: 0.5rem;
+
+  color: white;
+
 `
 
-export {Box, Content }
+const Name = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+  letter-spacing: .1rem;
+  color: white;
+  font-weight: bold;
+
+  position: relative;
+  top: .7rem;
+`
+
+export {Box, Content, Id, Name }

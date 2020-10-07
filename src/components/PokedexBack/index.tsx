@@ -13,6 +13,8 @@ import SearchIcon from '../../assets/svg/search-outline.svg'
 interface ISpokemon {
   name: string
   URL: string
+  type: string
+  id: number
 }
 
 const PokedexBack: React.FC = () => {
@@ -25,11 +27,7 @@ const PokedexBack: React.FC = () => {
   
   const [datas, setDatas] = useState({
     name:'charmander', 
-    game_indices: {
-      9: {
-        game_index: '4'
-      }
-    }, 
+    id: 4,
     types: {
       0: {
         type: {
@@ -46,15 +44,19 @@ const PokedexBack: React.FC = () => {
     e.preventDefault()
     const reWrited = pokemonName.toLowerCase()
     
-    
     const res = await Axios.get(`https://pokeapi.co/api/v2/type/`)
+    
+    setPokemonData([])
+    
     res.data.results.map( async(datas: any) => {    
-      if(datas.name.includes(reWrited)) {
-        setValue(!value)
+      if(datas.name === reWrited) {
         
-        const resType = await Axios.get(`https://pokeapi.co/api/v2/type/${reWrited}/`) 
-        resType.data.pokemon.map((datas: any) => {
-          
+        const resType = await Axios.get(`https://pokeapi.co/api/v2/type/${datas.name}/`)
+
+        resType.data.pokemon.map( async(datas: any) => {
+          const id = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${datas.pokemon.name}/`)
+          const game_index = id.data.id
+
           const nameNow = datas.pokemon.name
           
           const URL = datas.pokemon.url
@@ -64,14 +66,17 @@ const PokedexBack: React.FC = () => {
           
           setPokemonData( pokemonData => [
             ...pokemonData,
-            { name: nameNow, URL: newURL }
+            { name: nameNow, URL: newURL, type: reWrited, id: game_index }
           ])
+
+          return setValue(true)
         })
       } else {
-
+        
         const response = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
         setDatas(response.data)
 
+        return setValue(false)
       }
 
     })
@@ -107,7 +112,9 @@ const PokedexBack: React.FC = () => {
             return (
               <BlueScreenContent 
                 key={data.name}
+                PokeNumber={data.id}
                 PokeName={data.name}
+                PokeType={data.type}
                 imageUrl={data.URL}
               />
             )
@@ -115,7 +122,7 @@ const PokedexBack: React.FC = () => {
             {value ? <></> : 
             <BlueScreenContent 
               PokeName={datas.name}
-              PokeNumber={datas.game_indices[9].game_index}
+              PokeNumber={datas.id}
               PokeType={datas.types[0].type.name}
               imageUrl={datas.sprites.front_default}
             />}         
