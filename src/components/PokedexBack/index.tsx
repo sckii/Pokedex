@@ -105,7 +105,7 @@ const PokedexBack: React.FC = () => {
 
         <Box >
           <form onSubmit={handleSearch}>
-            <h1>Search for pokemons (name or type)</h1>
+            <h1>Search for pokemons (name or type) or (Show All) to see all 200 pokemons</h1>
           <div>
             <Search 
               value={pokemonName}

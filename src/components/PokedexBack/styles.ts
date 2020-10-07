@@ -86,6 +86,11 @@ const Box = styled.div `
   align-items: center;
   justify-content: center;
   h1 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+
+    text-align: justify;
+
     color: white;
     margin-bottom: 1rem;
   }
