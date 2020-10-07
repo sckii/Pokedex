@@ -16,7 +16,6 @@ interface ISpokemon {
   name: string
   URL: string
   type: any
-  color: string
   id: number
 }
 
@@ -30,25 +29,17 @@ const PokedexBack: React.FC = () => {
     all.data.results.map( async(data: any) => {
       const allInfos = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.name}/`)
     
-      db.map(datas => {
-        allInfos.data.types.map((infos: any) => {
-          const index = allInfos.data.id
-          const image = allInfos.data.sprites.front_default
-          const name = allInfos.data.name
-          const type = allInfos.data.types
-          
-          if(infos.type.name === datas.type) {
-            setPokemonData(pokemonData => [
-              ...pokemonData,
-              {id: index, URL: image, name: name, type: type, color: datas.color}
-            ])
-          }
-        })  
-      })
-      
-      
+      const index = allInfos.data.id
+      const image = allInfos.data.sprites.front_default
+      const name = allInfos.data.name
+      const type = allInfos.data.types
+    
+        setPokemonData(pokemonData => [
+          ...pokemonData,
+          {id: index, URL: image, name: name, type: type}
+        ])
+                 
     })
-
   }
 
   useEffect(() => {
@@ -75,46 +66,32 @@ const PokedexBack: React.FC = () => {
         resType.data.pokemon.map( async(datas: any) => {
           const id = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${datas.pokemon.name}/`)
           
-          db.map(datas => {
-            id.data.types.map((infos: any) => {
-              const image = id.data.sprites.front_default
-              const index = id.data.id
-              const name = id.data.name
-              const type = id.data.types
-              
-              
-              if(infos.type.name === datas.type) {
-                setPokemonData(pokemonData => [
-                  ...pokemonData,
-                  {id: index, URL: image, name: name, type: type, color: datas.color}
-                ])
-              }
-            })  
-          })
-
+          const image = id.data.sprites.front_default
+          const index = id.data.id
+          const name = id.data.name
+          const type = id.data.types
+          
+          
+          setPokemonData(pokemonData => [
+            ...pokemonData,
+            {id: index, URL: image, name: name, type: type}
+          ])
         })
       } else {
-          Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
-            .then((response) => {
-              
-              const index = response.data.id
-              const image = response.data.sprites.front_default
-              const name = response.data.name
-              const type = response.data.types
-              
-              db.map((datas) => {
-                type.map((infos: any) => {
-                  if(infos.type.name === datas.type) {
-                    setPokemonData([
-                      {id: index, URL: image, name: name, type: type, color: datas.color}
-                    ])
-                  }
-                })
-              })
-              
-
-            })  
-            .catch(() => {console.log()})
+        Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
+          .then((response) => {
+            
+            const index = response.data.id
+            const image = response.data.sprites.front_default
+            const name = response.data.name
+            const type = response.data.types
+            
+            
+                  setPokemonData([
+                    {id: index, URL: image, name: name, type: type}
+                  ])
+          })                       
+          .catch(() => {console.log()})
       }
 
     })
@@ -150,14 +127,14 @@ const PokedexBack: React.FC = () => {
             
             return (
               <BlueScreenContent 
-                key={data.name}
                 PokeNumber={data.id}
                 PokeName={data.name}
                 imageUrl={data.URL}
               >
-                {data.type.map((types: any) => {                 
+                {data.type.map((types: any) => {
+                                
                   return (
-                    <Types key={types.type.name} style={{background: data.color}}>
+                    <Types style={{background: `gray`}}>
                       {types.type.name}
                     </Types>
                   )
