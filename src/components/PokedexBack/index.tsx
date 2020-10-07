@@ -100,7 +100,7 @@ const PokedexBack: React.FC = () => {
         
         <HeaderContent>
           <img src={PokeballIcon} alt="Pokeball"/>
-          <h6>Pokedex 0.0.1v</h6>
+          <h6>Pokedex 0.0.2v</h6>
         </HeaderContent>
 
         <Box >
