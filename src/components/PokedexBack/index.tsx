@@ -40,17 +40,18 @@ const PokedexBack: React.FC = () => {
     })
   }
 
+
   useEffect(() => {
     showAll()
   }, [])
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault()
+    const reWrited = pokemonName.toLowerCase()
 
-    if(pokemonName === 'show all') {
+    if(reWrited === 'show all') {
       return showAll()
     }
-    const reWrited = pokemonName.toLowerCase()
     
     const res = await Axios.get(`https://pokeapi.co/api/v2/type/`)
     
