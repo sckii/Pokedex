@@ -7,8 +7,11 @@ import PokeballIcon from '../../assets/svg/pokeball.svg'
 import Display from '../Display';
 import Axios from 'axios';
 import BlueScreenContent from '../BlueScreenContext';
+import InfosContainer from '../InfosContainer'
 
 import SearchIcon from '../../assets/svg/search-outline.svg'
+
+import db from '../../data/db.json'
 
 interface ISpokemon {
   name: string
@@ -17,10 +20,18 @@ interface ISpokemon {
   id: number
 }
 
+interface ISstats {
+  abilities: any
+  stats: any
+}
+
 const PokedexBack: React.FC = () => {
 
   const [pokemonData, setPokemonData] = useState<ISpokemon[]>([])
   const [pokemonName, setPokemonName] = useState('Show All')
+  const [value, setVaule] = useState(true)
+
+  const [stats, setStats] = useState<ISstats[]>([])
   
   const showAll = async () => {
     const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=200&offset=1')
@@ -35,8 +46,7 @@ const PokedexBack: React.FC = () => {
         setPokemonData(pokemonData => [
           ...pokemonData,
           {id: index, URL: image, name: name, type: type}
-        ])
-                 
+        ])        
     })
   }
 
@@ -94,8 +104,30 @@ const PokedexBack: React.FC = () => {
     })
   }
   
+  const handleClick = async (name: string) => {
+    setVaule(!value)
+    const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`)
+    console.log(res.data.abilities)
+    console.log(res.data.stats)
+    
+    setStats([
+      {
+        abilities: res.data.abilities,
+        stats: res.data.stats
+      }
+    ])
+
+  }
+
   return (
     <WrapperContent>
+      {value ? <InfosContainer>
+        <div>
+          <div>
+            <h2 onClick={() => setVaule(false)}>x</h2><h3> Pokemon Atributes </h3>
+          </div>
+        </div>
+      </InfosContainer> : <> </>}
       <Content>
         
         <HeaderContent>
@@ -103,7 +135,7 @@ const PokedexBack: React.FC = () => {
           <h6>Pokedex 0.0.2v</h6>
         </HeaderContent>
 
-        <Box >
+        <Box>
           <form onSubmit={handleSearch}>
             <h1>You can search <span>Name, Type or Show All</span> to see 200 pokemons</h1>
           <div>
@@ -124,12 +156,12 @@ const PokedexBack: React.FC = () => {
             
             return (
               <BlueScreenContent 
+                onClick={async () => handleClick(data.name)}
                 PokeNumber={data.id}
                 PokeName={data.name}
                 imageUrl={data.URL}
               >
                 {data.type.map((types: any) => {
-                                
                   return (
                     <Types style={{background: `gray`}}>
                       {types.type.name}

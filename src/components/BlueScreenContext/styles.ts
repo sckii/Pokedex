@@ -14,7 +14,28 @@ const Content = styled.li`
     width: 8rem;
   }
   border-radius: .8rem;
-  box-shadow: 2px 2px 0px 1px ${props => props.theme.colors.secondary};
+  box-shadow: 4px 4px 0px 3px ${props => props.theme.colors.white};
+
+  transition: all .2s;
+  &:hover {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    
+    &::after {
+      content: 'Click for more infos';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      border-radius: .8rem;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: ${props => props.theme.colors.secondaryDark};
+      opacity: 0.8;
+    }
+  }
+
 `
 
 const Box = styled.div`
