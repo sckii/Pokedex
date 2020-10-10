@@ -22,8 +22,8 @@ const Content = styled.div`
   animation-duration: .2s;
 
   @keyframes open {
-    from { width: 0rem;  height: 0rem }
-    to { width: 28rem;  height: 30rem }
+    from { width: 0rem;  height: 0rem; font-size: 0 }
+    to { width: 28rem;  height: 30rem; font-size: initial}
   }
   div {
     margin: 1rem;
@@ -84,8 +84,15 @@ const Content = styled.div`
     border-bottom: .5px solid white;
     padding: 0.2rem;
     text-align: center;
-  }
+    opacity: 0.6;
 
+    transition: opacity 0.2s; 
+    &:hover {
+      opacity: 1
+    }
+  }
+   
+  
 `
 
 

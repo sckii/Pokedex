@@ -132,7 +132,7 @@ const PokedexBack: React.FC = () => {
       <InfosContainer>
         <div>
           <header>
-            <h2 onClick={() => setVaule(false)}>x</h2><h3> Pokemon Atributes </h3>
+            <h2 onClick={() => {setVaule(false); setIcon(false)}}>x</h2><h3> Pokemon Atributes </h3>
           </header>
           <main> 
             <h1>
@@ -145,8 +145,9 @@ const PokedexBack: React.FC = () => {
                     <Icon src={data.URL} alt=""/>
                     <IconInfo 
                       src={InfoIcon}
-                      
-                      onClick={() => {setIcon(!icon)}}
+                      onMouseDown={() => {setIcon(true)}}
+                      onMouseUp={() => {setIcon(false)}}
+
                     />
                     #{data.id}
                   
@@ -172,7 +173,6 @@ const PokedexBack: React.FC = () => {
                               {stats.stat.name.toUpperCase()}{': '}
                               {stats.base_stat}
                             </p>
-                            
                           </>
                         )
                       })}

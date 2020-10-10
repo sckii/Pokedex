@@ -145,8 +145,12 @@ const Info = styled.span`
     from { opacity: 0}
     to { opacity: .7}
   }
-  p {
-    letter-spacing: 1px;
+
+  h1 {
+    opacity: 0.2;
+    &:hover {
+      opacity: 1
+    }
   }
 
 `
