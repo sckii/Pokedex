@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { WrapperContent, Content, HeaderContent, Box, Search, Types } from './styles';
+import { WrapperContent, Content, HeaderContent, Box, Search, Types, Info, Icon, IconInfo } from './styles';
 
 import Button from '../Button'
 import PokeballIcon from '../../assets/svg/pokeball.svg'
@@ -11,7 +11,7 @@ import InfosContainer from '../InfosContainer'
 
 import SearchIcon from '../../assets/svg/search-outline.svg'
 
-import db from '../../data/db.json'
+import InfoIcon from '../../assets/svg/help-circle-outline.svg'
 
 interface ISpokemon {
   name: string
@@ -20,19 +20,23 @@ interface ISpokemon {
   id: number
 }
 
-interface ISstats {
+interface ISdata {
+  name: string
+  URL: string
+  type: any
+  id: number
   abilities: any
-  stats: any
+  atributes: any
 }
 
 const PokedexBack: React.FC = () => {
 
   const [pokemonData, setPokemonData] = useState<ISpokemon[]>([])
   const [pokemonName, setPokemonName] = useState('Show All')
-  const [value, setVaule] = useState(true)
+  const [value, setVaule] = useState(false)
 
-  const [stats, setStats] = useState<ISstats[]>([])
-  
+  const [abilities, setAbilities] = useState<ISdata[]>([])
+
   const showAll = async () => {
     const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=200&offset=1')
     all.data.results.map( async(data: any) => {
@@ -104,28 +108,80 @@ const PokedexBack: React.FC = () => {
     })
   }
   
-  const handleClick = async (name: string) => {
+  const handleClick = async (named: string) => {
     setVaule(!value)
-    const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`)
-    console.log(res.data.abilities)
-    console.log(res.data.stats)
+    const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${named}/`)
     
-    setStats([
-      {
-        abilities: res.data.abilities,
-        stats: res.data.stats
-      }
-    ])
+      const index = res.data.id
+      const image = res.data.sprites.front_default
+      const name = res.data.name
+      const type = res.data.types
+      const abilities = res.data.abilities
+      const atributes = res.data.stats
 
+
+    setAbilities([
+      {id: index, URL: image, name: name, type: type, abilities, atributes}
+    ])
   }
 
+  const [icon, setIcon] = useState(false)
   return (
     <WrapperContent>
-      {value ? <InfosContainer>
+      {value ? 
+      <InfosContainer>
         <div>
-          <div>
+          <header>
             <h2 onClick={() => setVaule(false)}>x</h2><h3> Pokemon Atributes </h3>
-          </div>
+          </header>
+          <main> 
+            <h1>
+              {abilities.map((data) => {
+                return (
+                  <>
+                    <h6>
+                      {data.name.toUpperCase()}
+                    </h6>
+                    <Icon src={data.URL} alt=""/>
+                    <IconInfo 
+                      src={InfoIcon}
+                      
+                      onClick={() => {setIcon(!icon)}}
+                    />
+                    #{data.id}
+                  
+                    {data.abilities.map((abilities: any) => {
+                      return (
+                        <h5>
+                          {abilities.ability.name}
+                        </h5>
+                      )
+                    })}
+                    {data.type.map((types: any) => {
+                        return (
+                          <h5 style={{background: `gray`}}>
+                            {types.type.name}
+                          </h5>
+                        )
+                    })}
+                    {icon ? <Info>
+                      {data.atributes.map((stats: any) => {
+                        return (
+                          <>
+                            <p>
+                              {stats.stat.name.toUpperCase()}{': '}
+                              {stats.base_stat}
+                            </p>
+                            
+                          </>
+                        )
+                      })}
+                    </Info> : <></>}
+                  </>
+                )
+              })}
+            </h1>
+          </main>
         </div>
       </InfosContainer> : <> </>}
       <Content>
@@ -150,7 +206,7 @@ const PokedexBack: React.FC = () => {
           </form>
           <br/>
         </Box>
-
+        
         <Display>
           {pokemonData.map((data) => {
             

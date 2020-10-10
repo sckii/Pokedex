@@ -4,7 +4,6 @@ const Content = styled.div`
   background: #202020;
 
   position: absolute;
-  
 
   z-index: 200;
 
@@ -27,10 +26,16 @@ const Content = styled.div`
     to { width: 28rem;  height: 30rem }
   }
   div {
+    margin: 1rem;
     display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
-    div {
+
+    header {
+      width: 88%;
+      display: flex;
+      justify-content: space-between;
       height: fit-content;
     }
   }
@@ -53,9 +58,36 @@ const Content = styled.div`
     text-align: center;
     margin-top: 2rem;
     height: 2rem;
-    width: 75%;
+    width: 100%;
   }
+
+  main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    width: 100%;
+    height: 100%;
+
+  }
+  
+  h6 {
+    text-align: center;
+  }
+
+  h5 {
+    color: white; 
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border-bottom: .5px solid white;
+    padding: 0.2rem;
+    text-align: center;
+  }
+
 `
+
 
 
 export {Content}
