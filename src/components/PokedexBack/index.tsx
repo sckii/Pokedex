@@ -145,12 +145,13 @@ const PokedexBack: React.FC = () => {
                     <Icon src={data.URL} alt=""/>
                     <IconInfo 
                       src={InfoIcon}
-                      onMouseDown={() => {setIcon(true)}}
-                      onMouseUp={() => {setIcon(false)}}
+                      onMouseEnter={() => {setIcon(true)}}
+                      onMouseOut={() => {setIcon(false)}}
 
                     />
                     #{data.id}
-                  
+                    <p>Abilities</p><br/>
+
                     {data.abilities.map((abilities: any) => {
                       return (
                         <h5>
@@ -158,6 +159,7 @@ const PokedexBack: React.FC = () => {
                         </h5>
                       )
                     })}
+                    <p>Types</p><br/>
                     {data.type.map((types: any) => {
                         return (
                           <h5 style={{background: `gray`}}>
@@ -170,7 +172,7 @@ const PokedexBack: React.FC = () => {
                         return (
                           <>
                             <p>
-                              {stats.stat.name.toUpperCase()}{': '}
+                              {stats.stat.name.toUpperCase([0])}{': '}
                               {stats.base_stat}
                             </p>
                           </>

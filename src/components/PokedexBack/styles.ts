@@ -125,8 +125,8 @@ const Types = styled.div`
 
 const Info = styled.span`
   position: absolute;
-  top: 35%;
-  left: 2%;
+  top: 50%;
+  left: 27%;
   z-index: 1000;
 
   box-shadow: 0px 0px 2px  white;
@@ -136,14 +136,14 @@ const Info = styled.span`
   width: 12.8rem;
 
   background: black;
-  opacity: .7;
+  opacity: .9;
 
   animation-name: infosss;
   animation-duration: .4s;
 
   @keyframes infosss {
     from { opacity: 0}
-    to { opacity: .7}
+    to { opacity: .9}
   }
 
   h1 {
@@ -152,6 +152,7 @@ const Info = styled.span`
       opacity: 1
     }
   }
+
 
 `
 
@@ -168,6 +169,7 @@ const IconInfo = styled.img`
   &:hover {
     opacity: 1;
   }
+
 `
 const WrapperContent = styled.div`
   
