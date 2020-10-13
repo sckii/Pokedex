@@ -1,14 +1,17 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { WrapperContent, Content, HeaderContent, Box, Search, Types } from './styles';
+import { WrapperContent, Content, HeaderContent, Box, Search, Types, Info, Icon, IconInfo } from './styles';
 
 import Button from '../Button'
 import PokeballIcon from '../../assets/svg/pokeball.svg'
 import Display from '../Display';
 import Axios from 'axios';
 import BlueScreenContent from '../BlueScreenContext';
+import InfosContainer from '../InfosContainer'
 
 import SearchIcon from '../../assets/svg/search-outline.svg'
+
+import InfoIcon from '../../assets/svg/help-circle-outline.svg'
 
 interface ISpokemon {
   name: string
@@ -17,11 +20,23 @@ interface ISpokemon {
   id: number
 }
 
+interface ISdata {
+  name: string
+  URL: string
+  type: any
+  id: number
+  abilities: any
+  atributes: any
+}
+
 const PokedexBack: React.FC = () => {
 
   const [pokemonData, setPokemonData] = useState<ISpokemon[]>([])
   const [pokemonName, setPokemonName] = useState('Show All')
-  
+  const [value, setVaule] = useState(false)
+
+  const [abilities, setAbilities] = useState<ISdata[]>([])
+
   const showAll = async () => {
     const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=200&offset=1')
     all.data.results.map( async(data: any) => {
@@ -35,8 +50,7 @@ const PokedexBack: React.FC = () => {
         setPokemonData(pokemonData => [
           ...pokemonData,
           {id: index, URL: image, name: name, type: type}
-        ])
-                 
+        ])        
     })
   }
 
@@ -94,16 +108,90 @@ const PokedexBack: React.FC = () => {
     })
   }
   
+  const handleClick = async (named: string) => {
+    setVaule(!value)
+    const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${named}/`)
+    
+      const index = res.data.id
+      const image = res.data.sprites.front_default
+      const name = res.data.name
+      const type = res.data.types
+      const abilities = res.data.abilities
+      const atributes = res.data.stats
+
+
+    setAbilities([
+      {id: index, URL: image, name: name, type: type, abilities, atributes}
+    ])
+  }
+
+  const [icon, setIcon] = useState(false)
   return (
     <WrapperContent>
+      {value ? 
+      <InfosContainer>
+        <div>
+          <header>
+            <h2 onClick={() => {setVaule(false); setIcon(false)}}>x</h2><h3> Pokemon Atributes </h3>
+          </header>
+          <main> 
+            <h1>
+              {abilities.map((data) => {
+                return (
+                  <>
+                    <h6>
+                      {data.name.toUpperCase()}
+                    </h6>
+                    <Icon src={data.URL} alt=""/>
+                    <IconInfo 
+                      src={InfoIcon}
+                      onMouseDown={() => {setIcon(true)}}
+                      onMouseUp={() => {setIcon(false)}}
+
+                    />
+                    #{data.id}
+                  
+                    {data.abilities.map((abilities: any) => {
+                      return (
+                        <h5>
+                          {abilities.ability.name}
+                        </h5>
+                      )
+                    })}
+                    {data.type.map((types: any) => {
+                        return (
+                          <h5 style={{background: `gray`}}>
+                            {types.type.name}
+                          </h5>
+                        )
+                    })}
+                    {icon ? <Info>
+                      {data.atributes.map((stats: any) => {
+                        return (
+                          <>
+                            <p>
+                              {stats.stat.name.toUpperCase()}{': '}
+                              {stats.base_stat}
+                            </p>
+                          </>
+                        )
+                      })}
+                    </Info> : <></>}
+                  </>
+                )
+              })}
+            </h1>
+          </main>
+        </div>
+      </InfosContainer> : <> </>}
       <Content>
         
         <HeaderContent>
           <img src={PokeballIcon} alt="Pokeball"/>
-          <h6>Pokedex 0.0.1v</h6>
+          <h6>Pokedex 0.0.2v</h6>
         </HeaderContent>
 
-        <Box >
+        <Box>
           <form onSubmit={handleSearch}>
             <h1>You can search <span>Name, Type or Show All</span> to see 200 pokemons</h1>
           <div>
@@ -118,18 +206,18 @@ const PokedexBack: React.FC = () => {
           </form>
           <br/>
         </Box>
-
+        
         <Display>
           {pokemonData.map((data) => {
             
             return (
               <BlueScreenContent 
+                onClick={async () => handleClick(data.name)}
                 PokeNumber={data.id}
                 PokeName={data.name}
                 imageUrl={data.URL}
               >
                 {data.type.map((types: any) => {
-                                
                   return (
                     <Types style={{background: `gray`}}>
                       {types.type.name}

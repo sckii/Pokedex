@@ -1,23 +1,5 @@
 import styled from 'styled-components'
 
-const WrapperContent = styled.div`
-  
-  max-width: 25rem;
-  width: 100%;
-  height: 90vh;
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  background: ${props => props.theme.colors.primary};
-
-  padding: 0rem;
-  border-radius: 1rem;
-  box-shadow: 5px 5.5px 0px 5px ${props => props.theme.colors.secondary};
-  
-`
 
 const Content = styled.header`
   display: flex;
@@ -141,4 +123,68 @@ const Types = styled.div`
   text-align: center;
 `
 
-export { WrapperContent, Types, Content, HeaderContent, Box, Search, Filter }
+const Info = styled.span`
+  position: absolute;
+  top: 35%;
+  left: 2%;
+  z-index: 1000;
+
+  box-shadow: 0px 0px 2px  white;
+  border-radius: 1rem;
+  padding: .8rem;
+
+  width: 12.8rem;
+
+  background: black;
+  opacity: .7;
+
+  animation-name: infosss;
+  animation-duration: .4s;
+
+  @keyframes infosss {
+    from { opacity: 0}
+    to { opacity: .7}
+  }
+
+  h1 {
+    opacity: 0.2;
+    &:hover {
+      opacity: 1
+    }
+  }
+
+`
+
+const Icon = styled.img`
+  width: 10rem;
+`
+const IconInfo = styled.img`
+  position: absolute;
+  left: 30%;
+  width: 1.5rem;
+  opacity: .4;
+
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+`
+const WrapperContent = styled.div`
+  
+  max-width: 25rem;
+  width: 100%;
+  height: 90vh;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background: ${props => props.theme.colors.primary};
+
+  padding: 0rem;
+  border-radius: 1rem;
+  box-shadow: 5px 5.5px 0px 5px ${props => props.theme.colors.secondary};
+`
+
+export { WrapperContent, IconInfo, Info, Icon, Types, Content, HeaderContent, Box, Search, Filter }
