@@ -12,12 +12,17 @@ import InfosContainer from '../InfosContainer'
 import SearchIcon from '../../assets/svg/search-outline.svg'
 
 import InfoIcon from '../../assets/svg/help-circle-outline.svg'
+import typeValidation from '../APIvalidation/typeValidation';
 
 interface ISpokemon {
-  name: string
-  URL: string
-  type: any
-  id: number
+  dataBase: {
+    name: string,
+    id: number,
+    sprites: {
+      front_default: string
+    }
+    types: []
+  }
 }
 
 interface ISdata {
@@ -40,20 +45,21 @@ const PokedexBack: React.FC = () => {
   const showAll = async () => {
     const all = await Axios.get('https://pokeapi.co/api/v2/pokemon?limit=200&offset=1')
     all.data.results.map( async(data: any) => {
-      const allInfos = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.name}/`)
-    
-      const index = allInfos.data.id
-      const image = allInfos.data.sprites.front_default
-      const name = allInfos.data.name
-      const type = allInfos.data.types
-    
-        setPokemonData(pokemonData => [
-          ...pokemonData,
-          {id: index, URL: image, name: name, type: type}
-        ])        
+      try {
+        const allInfos = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.name}/`)
+      
+        const dataBase = allInfos.data
+      
+          setPokemonData(pokemonData => [
+            ...pokemonData,
+            {dataBase}
+        ])
+      }
+      catch(err) {
+        console.log()
+      }        
     })
   }
-
 
   useEffect(() => {
     showAll()
@@ -62,50 +68,46 @@ const PokedexBack: React.FC = () => {
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault()
     const reWrited = pokemonName.toLowerCase()
-
     if(reWrited === 'show all') {
       return showAll()
     }
-    
-    const res = await Axios.get(`https://pokeapi.co/api/v2/type/`)
-    
+        
     setPokemonData([])
     
-    res.data.results.map( async(datas: any) => {    
-      if(datas.name === reWrited) {
-        
-        const resType = await Axios.get(`https://pokeapi.co/api/v2/type/${datas.name}/`)
+    const result = await typeValidation(reWrited)
+    if (result.includes(true)) {
 
-        resType.data.pokemon.map( async(datas: any) => {
-          const id = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${datas.pokemon.name}/`)
+      const res = await Axios.get(`https://pokeapi.co/api/v2/type/${reWrited}/`)
+      res.data.pokemon.map( async (data: any) => {
+
+        try {
+          const forEachPokemon = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${data.pokemon.name}/`)
+          const dataBase = forEachPokemon.data
           
-          const image = id.data.sprites.front_default
-          const index = id.data.id
-          const name = id.data.name
-          const type = id.data.types
-          
-          
-          setPokemonData(pokemonData => [
-            ...pokemonData,
-            {id: index, URL: image, name: name, type: type}
+          setPokemonData( pokemonData => [
+            ...pokemonData, 
+            {dataBase}
           ])
-        })
-      } else {
-        Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
-          .then((response) => {
-            
-            const index = response.data.id
-            const image = response.data.sprites.front_default
-            const name = response.data.name
-            const type = response.data.types
-            
-            setPokemonData([
-              {id: index, URL: image, name: name, type: type}
-            ])
-          })                       
-          .catch(() => {console.log()})
-      }
-    })
+
+        } catch (err) {
+          console.log()
+        }
+        
+
+      })
+
+    }
+
+    else {
+
+      const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${reWrited}/`)
+      const dataBase = res.data
+      setPokemonData([
+        {dataBase}
+      ])
+
+    }
+    
   }
   
   const handleClick = async (named: string) => {
@@ -214,12 +216,12 @@ const PokedexBack: React.FC = () => {
             
             return (
               <BlueScreenContent 
-                onClick={async () => handleClick(data.name)}
-                PokeNumber={data.id}
-                PokeName={data.name}
-                imageUrl={data.URL}
+                onClick={async () => handleClick(data.dataBase.name)}
+                PokeNumber={data.dataBase.id}
+                PokeName={data.dataBase.name}
+                imageUrl={data.dataBase.sprites.front_default}
               >
-                {data.type.map((types: any) => {
+                {data.dataBase.types.map((types: any) => {
                   return (
                     <Types style={{background: `gray`}}>
                       {types.type.name}
