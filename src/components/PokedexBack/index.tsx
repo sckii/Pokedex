@@ -1,6 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { WrapperContent, Content, HeaderContent, Box, Search, Types, Info, Icon, IconInfo } from './styles';
+import { ClickedNow, WrapperContent, Content, HeaderContent, Box, Search, Types, Info, Icon, IconInfo } from './styles';
 
 import Button from '../Button'
 import PokeballIcon from '../../assets/svg/pokeball.svg'
@@ -13,6 +13,7 @@ import SearchIcon from '../../assets/svg/search-outline.svg'
 
 import InfoIcon from '../../assets/svg/help-circle-outline.svg'
 import typeValidation from '../APIvalidation/typeValidation';
+import colorMatch from '../APIvalidation/colorMatch';
 
 interface ISpokemon {
   dataBase: {
@@ -26,12 +27,29 @@ interface ISpokemon {
 }
 
 interface ISdata {
-  name: string
-  URL: string
-  type: any
-  id: number
-  abilities: any
-  atributes: any
+  dataBase: {
+    abilities: [
+      {
+        ability: {
+          name: string
+        }
+      }
+    ]
+    name: string
+    id: number
+    sprites: {
+      front_default: string
+    }
+    types: []
+    stats: [
+      {
+        base_stat: number
+        stat: {
+          name: string
+        }
+      }
+    ]
+  }
 }
 
 const PokedexBack: React.FC = () => {
@@ -113,17 +131,10 @@ const PokedexBack: React.FC = () => {
   const handleClick = async (named: string) => {
     setVaule(!value)
     const res = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${named}/`)
-    
-      const index = res.data.id
-      const image = res.data.sprites.front_default
-      const name = res.data.name
-      const type = res.data.types
-      const abilities = res.data.abilities
-      const atributes = res.data.stats
-
+    const dataBase = res.data
 
     setAbilities([
-      {id: index, URL: image, name: name, type: type, abilities, atributes}
+      {dataBase}
     ])
   }
 
@@ -137,24 +148,24 @@ const PokedexBack: React.FC = () => {
             <h2 onClick={() => {setVaule(false); setIcon(false)}}>x</h2><h3> Pokemon Atributes </h3>
           </header>
           <main> 
-            <h1>
+            <ClickedNow>
               {abilities.map((data) => {
                 return (
                   <>
                     <h6>
-                      {data.name.toUpperCase()}
+                      {data.dataBase.name.toUpperCase()}{` `}
+                      #{data.dataBase.id}
                     </h6>
-                    <Icon src={data.URL} alt=""/>
+                    <Icon src={data.dataBase.sprites.front_default} alt=""/>
                     <IconInfo 
                       src={InfoIcon}
                       onMouseEnter={() => {setIcon(true)}}
                       onMouseOut={() => {setIcon(false)}}
 
                     />
-                    #{data.id}
                     <p>Abilities</p><br/>
 
-                    {data.abilities.map((abilities: any) => {
+                    {data.dataBase.abilities.map((abilities: any) => {
                       return (
                         <h5>
                           {abilities.ability.name}
@@ -162,15 +173,22 @@ const PokedexBack: React.FC = () => {
                       )
                     })}
                     <p>Types</p><br/>
-                    {data.type.map((types: any) => {
+                    {data.dataBase.types.map( (types: any) => {
+                        const colorSet = colorMatch(types.type.name)
+                        function isString(obj: any){
+                          if (typeof obj === `string`) {
+                            return true
+                          }
+                        } 
+                        const filtred = colorSet.filter(isString)
                         return (
-                          <h5 style={{background: `gray`}}>
+                          <h5 key={types.type.name + data.dataBase.id} style={{ background: filtred[0] }}>
                             {types.type.name}
                           </h5>
                         )
                     })}
                     {icon ? <Info>
-                      {data.atributes.map((stats: any) => {
+                      {data.dataBase.stats.map((stats: any) => {
                         return (
                           <>
                             <p>
@@ -184,7 +202,7 @@ const PokedexBack: React.FC = () => {
                   </>
                 )
               })}
-            </h1>
+            </ClickedNow>
           </main>
         </div>
       </InfosContainer> : <> </>}
@@ -217,13 +235,21 @@ const PokedexBack: React.FC = () => {
             return (
               <BlueScreenContent 
                 onClick={async () => handleClick(data.dataBase.name)}
+                key={data.dataBase.id}
                 PokeNumber={data.dataBase.id}
                 PokeName={data.dataBase.name}
                 imageUrl={data.dataBase.sprites.front_default}
               >
                 {data.dataBase.types.map((types: any) => {
+                  const colorSet = colorMatch(types.type.name)
+                  function isString(obj: any){
+                    if (typeof obj === `string`) {
+                      return true
+                    }
+                  } 
+                  const filtred = colorSet.filter(isString)
                   return (
-                    <Types style={{background: `gray`}}>
+                    <Types key={types.type.name + data.dataBase.id} style={{background: filtred[0]}}>
                       {types.type.name}
                     </Types>
                   )

@@ -26,7 +26,8 @@ const Content = styled.div`
     to { width: 28rem;  height: 30rem; font-size: initial}
   }
   div {
-    margin: 1rem;
+    margin: 0.5rem 3rem 0.5rem 3rem;
+
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -91,8 +92,6 @@ const Content = styled.div`
       opacity: 1
     }
   }
-   
-  
 `
 
 

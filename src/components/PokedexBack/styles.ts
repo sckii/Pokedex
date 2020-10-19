@@ -125,7 +125,7 @@ const Types = styled.div`
 
 const Info = styled.span`
   position: absolute;
-  top: 50%;
+  top: 26%;
   left: 27%;
   z-index: 1000;
 
@@ -162,6 +162,7 @@ const Icon = styled.img`
 const IconInfo = styled.img`
   position: absolute;
   left: 30%;
+  top: 18%;
   width: 1.5rem;
   opacity: .4;
 
@@ -189,4 +190,12 @@ const WrapperContent = styled.div`
   box-shadow: 5px 5.5px 0px 5px ${props => props.theme.colors.secondary};
 `
 
-export { WrapperContent, IconInfo, Info, Icon, Types, Content, HeaderContent, Box, Search, Filter }
+const ClickedNow = styled.div `
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+`
+
+
+export { ClickedNow, WrapperContent, IconInfo, Info, Icon, Types, Content, HeaderContent, Box, Search, Filter }

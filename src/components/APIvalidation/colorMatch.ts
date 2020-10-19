@@ -82,11 +82,14 @@ const colors = [
 ]
 
 function colorMatch(input: string) {
-  colors.map((data: any) => {
+  const color = colors.map((data: any) => {
     if(input === data.type) {
-      
+      const color = data.color
+      return color
     }
   })
+  return color
 }
+
 
 export default colorMatch
